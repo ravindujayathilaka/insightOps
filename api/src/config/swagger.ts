@@ -1,27 +1,29 @@
-import swaggerJSDoc from "swagger-jsdoc";
+import swaggerJsdoc from "swagger-jsdoc";
 
-export const swaggerSpec = swaggerJSDoc({
+const options = {
   definition: {
     openapi: "3.0.0",
     info: {
       title: "InsightOps API",
       version: "1.0.0",
-      description: "Internal analytics tracking API",
+      description: "InsightOps backend API documentation",
     },
-    servers: [
-      {
-        url: "http://localhost:4000",
-      },
-    ],
     components: {
       securitySchemes: {
-        bearerAuth: {
+        BearerAuth: {
           type: "http",
           scheme: "bearer",
-          bearerFormat: "JWT",
+        },
+        ApiKeyAuth: {
+          type: "apiKey",
+          in: "header",
+          name: "x-api-key",
         },
       },
     },
+    security: [{ BearerAuth: [] }],
   },
-  apis: ["./src/routes/*.ts"],
-});
+  apis: ["./src/routes/*.ts"], // 🔥 THIS IS THE KEY FIX
+};
+
+export const swaggerSpec = swaggerJsdoc(options);

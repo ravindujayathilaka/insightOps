@@ -19,6 +19,7 @@ model User {
   createdAt DateTime @default(now())
 
   apps      App[]
+  applications Application[]
 }
 
 model App {
@@ -41,5 +42,22 @@ model Event {
   createdAt DateTime @default(now())
 
   app       App      @relation(fields: [appId], references: [id])
+}
+
+model Application {
+  id        String   @id @default(cuid())
+  name      String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  apiKeys   ApiKey[]
+  createdAt DateTime @default(now())
+}
+
+model ApiKey {
+  id            String   @id @default(cuid())
+  key           String   @unique
+  applicationId String
+  application   Application @relation(fields: [applicationId], references: [id])
+  createdAt     DateTime @default(now())
 }
 

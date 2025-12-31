@@ -9,6 +9,9 @@ import { swaggerSpec } from "./config/swagger";
 
 
 import authRoutes from "./routes/auth.routes";
+import appRoutes from "./routes/app.routes";
+import apiKeyRoutes from "./routes/apiKey.routes";
+
 import { authMiddleware } from "./middlewares/auth.middleware";
 
 
@@ -18,6 +21,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/auth", authRoutes);
+app.use("/apps", appRoutes);
+app.use("/api-keys", apiKeyRoutes);
 
 /**
  * @swagger
