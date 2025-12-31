@@ -11,3 +11,5 @@
 
 DATABASE_URL=postgresql://insightops:insightops@localhost:5433/insightops
 PORT=4000
+JWT_SECRET=super_secret_dev_key
+NODE_ENV=development
