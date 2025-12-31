@@ -4,6 +4,28 @@ import { hashPassword, comparePassword, signToken } from "../utils/auth";
 
 const router = Router();
 
+/**
+ * @swagger
+ * /auth/register:
+ *   post:
+ *     summary: Register a new user
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [email, password]
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: JWT token
+ */
 router.post("/register", async (req, res) => {
   const { email, password } = req.body;
 
@@ -31,6 +53,28 @@ router.post("/register", async (req, res) => {
   res.json({ token });
 });
 
+/**
+ * @swagger
+ * /auth/login:
+ *   post:
+ *     summary: Login user
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [email, password]
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: JWT token
+ */
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
