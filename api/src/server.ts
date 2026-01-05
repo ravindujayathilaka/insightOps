@@ -11,6 +11,7 @@ import { swaggerSpec } from "./config/swagger";
 import authRoutes from "./routes/auth.routes";
 import appRoutes from "./routes/app.routes";
 import apiKeyRoutes from "./routes/apiKey.routes";
+import eventRoutes from "./routes/event.routes";
 
 import { authMiddleware } from "./middlewares/auth.middleware";
 
@@ -21,8 +22,9 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/auth", authRoutes);
-app.use("/apps", appRoutes);
+app.use("/applications", appRoutes);
 app.use("/api-keys", apiKeyRoutes);
+app.use("/events", eventRoutes);
 
 /**
  * @swagger
@@ -46,7 +48,7 @@ app.get("/health", (_, res) => {
 
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`API running on port ${PORT}`);
 });
