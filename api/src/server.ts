@@ -12,6 +12,7 @@ import authRoutes from "./routes/auth.routes";
 import appRoutes from "./routes/app.routes";
 import apiKeyRoutes from "./routes/apiKey.routes";
 import eventRoutes from "./routes/event.routes";
+import analyticsRoutes from "./routes/analytics.routes";
 
 import { authMiddleware } from "./middlewares/auth.middleware";
 
@@ -25,6 +26,7 @@ app.use("/auth", authRoutes);
 app.use("/applications", appRoutes);
 app.use("/api-keys", apiKeyRoutes);
 app.use("/events", eventRoutes);
+app.use("/analytics", analyticsRoutes);
 
 /**
  * @swagger
