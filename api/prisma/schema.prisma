@@ -18,46 +18,47 @@ model User {
   password  String
   createdAt DateTime @default(now())
 
-  apps      App[]
   applications Application[]
-}
-
-model App {
-  id        String   @id @default(uuid())
-  name      String
-  apiKey    String   @unique
-  userId    String
-  createdAt DateTime @default(now())
-
-  user      User     @relation(fields: [userId], references: [id])
-  events    Event[]
-}
-
-model Event {
-  id        String   @id @default(uuid())
-  appId     String
-  type      String
-  name      String?
-  path      String?
-  createdAt DateTime @default(now())
-
-  app       App      @relation(fields: [appId], references: [id])
 }
 
 model Application {
   id        String   @id @default(cuid())
   name      String
+
   userId    String
   user      User     @relation(fields: [userId], references: [id])
+
   apiKeys   ApiKey[]
+  events    Event[]        // ✅ FIX: opposite relation added
+
   createdAt DateTime @default(now())
+
+  @@index([userId])
 }
 
 model ApiKey {
   id            String   @id @default(cuid())
   key           String   @unique
+
   applicationId String
   application   Application @relation(fields: [applicationId], references: [id])
+
   createdAt     DateTime @default(now())
+
+  @@index([applicationId])
 }
 
+model Event {
+  id            String   @id @default(cuid())
+
+  applicationId String
+  application   Application @relation(fields: [applicationId], references: [id])
+
+  type          String
+  message       String
+  payload       Json?
+
+  createdAt     DateTime @default(now())
+
+  @@index([applicationId, createdAt])
+}
