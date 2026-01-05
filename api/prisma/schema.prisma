@@ -43,6 +43,9 @@ model ApiKey {
   applicationId String
   application   Application @relation(fields: [applicationId], references: [id])
 
+  isActive      Boolean  @default(true)  // 👈 revoke = false
+  revokedAt     DateTime?
+
   createdAt     DateTime @default(now())
 
   @@index([applicationId])
