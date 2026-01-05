@@ -23,3 +23,55 @@ export const createApiKey = async (req: Request, res: Response) => {
 
   res.json(apiKey);
 };
+
+  export const listApiKeys = async (req: Request, res: Response) => {
+    const { appId } = req.params;
+
+    const keys = await prisma.apiKey.findMany({
+      where: { applicationId: appId },
+      orderBy: { createdAt: "desc" },
+    });
+
+    res.json(keys);
+  }
+
+  /**
+   * Revoke an API key (disable access)
+   */
+  export const revokeApiKey = async (req: Request, res: Response) => {
+    const { keyId } = req.params;
+
+    const key = await prisma.apiKey.update({
+      where: { id: keyId },
+      data: {
+        isActive: false,
+        revokedAt: new Date(),
+      },
+    });
+
+    res.json({ message: "API key revoked", key });
+  }
+
+  export const reactivateApiKey = async (req: Request, res: Response) => {
+    const { keyId } = req.params;
+
+    const key = await prisma.apiKey.update({
+      where: { id: keyId },
+      data: {
+        isActive: true,
+        revokedAt: null,
+      },
+    });
+
+    res.json({ message: "API key reactivated", key });
+  }
+
+  export const deleteApiKey = async (req: Request, res: Response) => {
+    const { keyId } = req.params;
+
+    await prisma.apiKey.delete({
+      where: { id: keyId },
+    });
+
+    res.json({ message: "API key deleted permanently" });
+  }
