@@ -7,7 +7,7 @@
 
 import { Router } from "express";
 import { authMiddleware } from "../middlewares/auth.middleware";
-import { createApp, listApps } from "../controllers/app.controller";
+import { createApp, listApps, removeApp } from "../controllers/app.controller";
 
 const router = Router();
 
@@ -48,5 +48,28 @@ router.post("/", authMiddleware, createApp);
  *         description: List of applications
  */
 router.get("/", authMiddleware, listApps);
+
+/**
+ * @swagger
+ * /apps/{id}:
+ *   delete:
+ *     summary: Delete an application
+ *     tags: [Applications]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Application ID
+ *     responses:
+ *       200:
+ *         description: Application deleted successfully
+ *       404:
+ *         description: Application not found
+ */
+router.delete("/:id", authMiddleware, removeApp);
 
 export default router;

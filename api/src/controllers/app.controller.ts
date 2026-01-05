@@ -21,3 +21,22 @@ export const listApps = async (req: Request, res: Response) => {
 
   res.json(apps);
 };
+
+export const removeApp = async (req: Request, res: Response) => {
+  const { appId } = req.params;
+  const userId = (req as any).userId;
+
+  const app = await prisma.application.findFirst({
+    where: { id: appId, userId }
+  });
+
+  if (!app) {
+    return res.status(404).json({ message: "Application not found" });
+  }
+
+  await prisma.application.delete({
+    where: { id: appId }
+  });
+
+  res.json({ success: true });
+}
